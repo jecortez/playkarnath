@@ -11,7 +11,7 @@ var unbanked_cards = [];
 function init() {
 	var $container = document.getElementById('container');
 	// create Deck
-	deck = Deck();
+	deck = Deck(true);
 	// add to DOM
 	deck.mount($container);
 }
@@ -95,10 +95,14 @@ function determine_points(card1, card2) {
 	var card1_score = card1.rank;
 	var card2_score = card2.rank;
 
-	if (card1_score > 10) {
+	if (card1_score > 10
+		|| card1_score == 1
+		|| card1.i > 52) {
 		card1_score = 15;
 	}
-	if (card2_score > 10) {
+	if (card2_score > 10
+		|| card2_score == 1
+		|| card2.i > 52) {
 		card2_score = 15;
 	}
 	return card1_score + card2_score;
@@ -107,7 +111,7 @@ function determine_points(card1, card2) {
 function draw_cards() {
 	$("#player_ui").hide();
 
-	if (cur_player_turn == 26) {
+	if (cur_player_turn == 28) {
 		// They've managed to draw out 26 pairs, so all 52 cards. How can this even happen??
 		show_winner();
 	} else {
