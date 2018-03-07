@@ -62,9 +62,14 @@ function reset_game() {
 	player1_points = 0;
 	unbanked_points = 0;
 
+	reshuffle_deck();
+
 	
 	cur_player = Math.floor(Math.random() * Math.floor(2));
 	set_player(cur_player);
+	setTimeout(function() {
+		draw_cards();
+	}, 1000);
 }
 
 function set_player_score(player, score) {
@@ -102,45 +107,50 @@ function determine_points(card1, card2) {
 function draw_cards() {
 	$("#player_ui").hide();
 
-	card1 = deck.cards[cur_player_turn * 2];
-	card2 = deck.cards[cur_player_turn * 2 + 1];
-	
-	unbanked_cards.push(card1);
-	unbanked_cards.push(card2);
+	if (cur_player_turn == 26) {
+		// They've managed to draw out 26 pairs, so all 52 cards. How can this even happen??
+		show_winner();
+	} else {
+		card1 = deck.cards[cur_player_turn * 2];
+		card2 = deck.cards[cur_player_turn * 2 + 1];
+		
+		unbanked_cards.push(card1);
+		unbanked_cards.push(card2);
 
-	card1.setSide('front');
-	card2.setSide('front');
-	var left = cur_player == 0;
-	card1.animateTo({
-		delay: 1000,
-		duration: 500,
-		ease: 'quartOut',
-		x: (left ? -1 : 1) * 100,
-		y: cur_player_turn * 20
-	})
+		card1.setSide('front');
+		card2.setSide('front');
+		var left = cur_player == 0;
+		card1.animateTo({
+			delay: 1000,
+			duration: 500,
+			ease: 'quartOut',
+			x: (left ? -1 : 1) * 100,
+			y: cur_player_turn * 20
+		})
 
-	card2.animateTo({
-		delay: 1000,
-		duration: 500,
-		ease: 'quartOut',
-		x: (left ? -1 : 1) * 200,
-		y: cur_player_turn * 20
-	})
+		card2.animateTo({
+			delay: 1000,
+			duration: 500,
+			ease: 'quartOut',
+			x: (left ? -1 : 1) * 200,
+			y: cur_player_turn * 20
+		})
 
-	setTimeout(function() {
-		if (card1.suit == card2.suit) {
-				$("#notifications").text("Same Suit! Lost all unbanked points.");
-				setTimeout(function () {
-		            set_player(get_player());
-		            reshuffle_deck();
-		            draw_cards();
-	    		}, 2000);
-		} else {
-			$("#player_ui").show();
-			set_unbanked_points(unbanked_points + determine_points(card1, card2));
-			cur_player_turn++;
-		}
-	}, 1000);
+		setTimeout(function() {
+			if (card1.suit == card2.suit) {
+					$("#notifications").text("Same Suit! Lost all unbanked points.");
+					setTimeout(function () {
+			            set_player(get_player());
+			            reshuffle_deck();
+			            draw_cards();
+		    		}, 2000);
+			} else {
+				$("#player_ui").show();
+				set_unbanked_points(unbanked_points + determine_points(card1, card2));
+				cur_player_turn++;
+			}
+		}, 1000);
+	}
 
 
 	return [card1, card2];
