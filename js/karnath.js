@@ -5,6 +5,8 @@ var player0_points = 0;
 var player1_points = 0;
 var unbanked_points = 0;
 var cur_player;
+var cur_player_turn = 0;
+var unbanked_cards = [];
 
 function init() {
 	var $container = document.getElementById('container');
@@ -30,25 +32,22 @@ function bank() {
 		show_winner();
 	} else {		
 		var left = cur_player == 0;
-		card1.animateTo({
-			delay: 0,
-			duration: 500,
-			ease: 'quartOut',
-			x: (left ? -1 : 1) * 500,
-			y: 0
-		})
+		unbanked_cards.forEach(function(card, i){
+			card.animateTo({
+				delay: 0,
+				duration: 300,
+				ease: 'quartOut',
+				x: (left ? -1 : 1) * 500,
+				y: 0
+			});
+		});
 
-		card2.animateTo({
-			delay: 0,
-			duration: 500,
-			ease: 'quartOut',
-			x: (left ? -1 : 1) * 500,
-			y: 0
-		})
-
-		set_player(get_player());
 		setTimeout(function() {
-			draw_cards();
+				set_player(get_player());
+				reshuffle_deck();
+				setTimeout(function() {
+					draw_cards();
+				}, 1000);
 		}, 1000);
 	}
 }
@@ -102,10 +101,12 @@ function determine_points(card1, card2) {
 
 function draw_cards() {
 	$("#player_ui").hide();
-	reshuffle_deck();
 
-	card1 = deck.cards[0];
-	card2 = deck.cards[1];
+	card1 = deck.cards[cur_player_turn * 2];
+	card2 = deck.cards[cur_player_turn * 2 + 1];
+	
+	unbanked_cards.push(card1);
+	unbanked_cards.push(card2);
 
 	card1.setSide('front');
 	card2.setSide('front');
@@ -115,7 +116,7 @@ function draw_cards() {
 		duration: 500,
 		ease: 'quartOut',
 		x: (left ? -1 : 1) * 100,
-		y: 0
+		y: cur_player_turn * 20
 	})
 
 	card2.animateTo({
@@ -123,7 +124,7 @@ function draw_cards() {
 		duration: 500,
 		ease: 'quartOut',
 		x: (left ? -1 : 1) * 200,
-		y: 0
+		y: cur_player_turn * 20
 	})
 
 	setTimeout(function() {
@@ -131,11 +132,13 @@ function draw_cards() {
 				$("#notifications").text("Same Suit! Lost all unbanked points.");
 				setTimeout(function () {
 		            set_player(get_player());
+		            reshuffle_deck();
 		            draw_cards();
 	    		}, 2000);
 		} else {
 			$("#player_ui").show();
 			set_unbanked_points(unbanked_points + determine_points(card1, card2));
+			cur_player_turn++;
 		}
 	}, 1000);
 
@@ -144,6 +147,8 @@ function draw_cards() {
 }
 
 function set_player(player) {
+	cur_player_turn = 0;
+	unbanked_cards = [];
 	cur_player = player;
 	set_unbanked_points(0);
 	$("#notifications").text("Player " + (player + 1)  +"'s Turn!");
