@@ -11,23 +11,26 @@
 		<script src="node_modules/deck-of-cards/dist/deck.min.js"></script>
 		<script src="js/karnath.js"></script>
 		<div class="flex-container">
-			<div id="background"></div>
 			<div id="container"></div>
-			<div id="notifications"></div>
+			<div id="top_bar">
+				<div id="notifications"></div>
+				<div id="unbanked_points"></div>
+			</div>
 			<button class="button" type="text" id="new_game_button" onclick="reset_game()" hidden>New Game</button>
-			<div id="unbanked_points"></div>
 			<div id="player_ui" class="player_ui">
 				<button class="button" id="draw_button" type="text" onclick="draw_cards()">Draw</button>
 				<button class="button" id="bank_button" type="text" onclick="bank()" ">Bank</button>
 			</div>
-			<div id="player0_score">
+			<div class="score" id="player0_score">
+				<img src="images/p1.png" width="50px" height="50px">
 				Player 1:
-				<div id="player0_points">					
+				<div id="player0_points">
 				</div>
 			</div>
-			<div id="player1_score">
+			<div class="score" id="player1_score">
+				<img src="images/p2.png" width="50px" height="50px">
 				Player 2:
-				<div id="player1_points">					
+				<div id="player1_points">
 				</div>
 			</div>
 		</div>
