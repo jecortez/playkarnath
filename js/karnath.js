@@ -59,8 +59,8 @@ function reset_game() {
 
 	$("#player0_points").text(0);
 	$("#player1_points").text(0);
-	player0_score = 0;
-	player1_score = 0;
+	player0_points = 0;
+	player1_points = 0;
 	unbanked_points = 0;
 
 	
