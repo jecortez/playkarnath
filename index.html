@@ -1,5 +1,43 @@
+<!DOCTYPE html>
 <html>
-<body>
-test!
+	<head>
+		<meta charset="UTF-8">
+		<title>Play Karnath!</title>
+		<link rel="stylesheet" href="node_modules/deck-of-cards/example/example.css">
+		<link rel="stylesheet" href="css/karnath.css">
+	</head>
+	<body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="node_modules/deck-of-cards/dist/deck.min.js"></script>
+		<script src="js/karnath.js"></script>
+		<div class="flex-container">
+			<div id="background"></div>
+			<div id="container"></div>
+			<div id="notifications"></div>
+			<button class="button" type="text" id="new_game_button" onclick="reset_game()" hidden>New Game</button>
+			<div id="unbanked_points"></div>
+			<div id="player_ui" class="player_ui">
+				<button class="button" id="draw_button" type="text" onclick="draw_cards()">Draw</button>
+				<button class="button" id="bank_button" type="text" onclick="bank()" ">Bank</button>
+			</div>
+			<div id="player0_score">
+				Player 1:
+				<div id="player0_points">					
+				</div>
+			</div>
+			<div id="player1_score">
+				Player 2:
+				<div id="player1_points">					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	// Init the game
+	init();
+	reset_game();
+	draw_cards()
+</script>
 </body>
 </html>
