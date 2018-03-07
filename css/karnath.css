@@ -31,12 +31,13 @@ body {
 
 #top_bar {
 	background-color: lightgray;
-	padding: 5px;
+	padding: 20px;
 }
 #unbanked_points {
-	width:50px;
-	height:75px;
-	margin:0px auto;
+	width: 50px;
+	height: 75px;
+	padding: 5px;
+	margin: 0px auto;
 }
 
 .flex-container {
@@ -54,7 +55,7 @@ body {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 60px;
+    font-size: 40px;
 }
 
 .score {
